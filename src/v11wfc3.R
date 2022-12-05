@@ -50,26 +50,6 @@ system.time(res_col <- BDM_MH_supperpose_color(X = pts, Y = col, S = S, b0_start
                                                UDG_prior = UDG_prior, b0_prior = b0_prior, lc_prior = lc_prior, s0_prior = s0_prior, 
                                                M = 100000, norm_gal = FALSE))
 
-ncol_dat <- res[[1]][-c(1:10000)]
-col_dat <- res_col[[1]][-c(1:10000)]
-
-C_post_r <- lapply(ncol_dat, function(x) x)
-C_post_r <- do.call(rbind, C_post_r)
-C_post_r <- as.data.frame(C_post_r)
-
-C_post_rc <- lapply(col_dat, function(x) x)
-C_post_rc <- do.call(rbind, C_post_rc)
-C_post_rc <- as.data.frame(C_post_rc)
-
-ggplot(C_post_rc, aes(x, y)) +  stat_density_2d(aes(fill = ..density..), geom = "raster", contour = FALSE, n = 200)
-
-Nc <- unlist(lapply(col_dat, nrow))
-hist(Nc)
-sum(Nc == 0)
-
-hist_res <- hist2d(C_post_rc$x, C_post_rc$y, nbins = c(1/0.064, 1/0.064))
-max(hist_res$counts)
-
 #save results
 date <- Sys.Date()
 filename <- paste0('data/v11wfc3-pcp-col-',date,'-seed-', seed, '-100k.RDS')
