@@ -4,7 +4,6 @@ library(spatial)
 library(sp)
 library(sf)
 library(rgeos)
-library(plotly)
 
 # load functions and data
 source('src/BDMMH_supp.R')
