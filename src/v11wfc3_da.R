@@ -92,7 +92,7 @@ ggplot(gather(col_mod), aes(value)) +
 dev.off()
 system('pdflatex v11wfc_post_col.tex')
 
-# density and probability plots
+# whether there are UDGs? (No)
 ncol_dat <- res[[1]][-c(1:10000)]
 col_dat <- res_col[[1]][-c(1:10000)]
 
