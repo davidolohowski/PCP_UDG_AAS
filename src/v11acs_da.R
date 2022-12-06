@@ -36,7 +36,6 @@ res <- readRDS('data/v11acs_res/v11acs-pcp-2022-07-16-seed-810807-100k.RDS')
 res_col <- readRDS('data/v11acs_res/v11acs-pcp-col-2022-07-16-seed-810807-100k.RDS')
 
 # extract parameters to compute P(Z != 0 | X) (first 10000 as bur-in)
-
 sub_res <- res[[1]]
 sub_fix <- res[[2]]
 
@@ -73,7 +72,6 @@ for (j in 1:100001) {
 prob_ncol <- t(prob)
 
 # extract parameters to compute P(Z |!= 0 | X,V) (first 10000 as bur-in)
-
 sub_res_col <- res_col[[1]]
 sub_fix_col <- res_col[[2]]
 
@@ -114,6 +112,7 @@ prob_col <- t(prob)
 prob_ncol <- prob_ncol[-c(1:10001),]
 prob_col <- prob_col[-c(1:10001),]
 
+# R hat statsitics for Model 1 and Model 2
 PSRF_ncol <- stable.GR(prob_ncol, multivariate = F)
 PSRF_col <- stable.GR(prob_col, multivariate = F)
 
@@ -232,6 +231,7 @@ for (i in 1:100) {
   pu_c[i] <- max(hist_res_c_j$counts)/nrow(X_c_j)*(1 - sum(N_c_j)/90001)
 }
 
+# Posterior distributions regarding UDGs
 U1 <- data.frame(x = 2628, y = 1532)/4300
 U2 <- data.frame(x = 2517, y = 3289)/4300
 
@@ -346,6 +346,7 @@ C_post_rc <- lapply(col_dat, function(x) x)
 X_c <- do.call(rbind, C_post_rc)
 X_c <- as.data.frame(X_c)
 
+# Performance metric comparison
 ci <- c(0.1, 0.2, 0.3, 0.4)
 dm <- sapply(ci, function(x) detect_metric(U, c(0.018, 0.015), x, X_nc, X_c))
 acc_bs <- vector('list', length = 4)
@@ -374,6 +375,7 @@ for(i in 1:4){
 
 saveRDS(list(dm, acc_bs, FP_bs, prec_bs), 'data/v11acs_res/v11acs_pm.RDS')
 
+# Posterior density plots for X_c
 M1_kde <- MASS::kde2d(X_nc$x, X_nc$y, 
                       h = c(bw.nrd(X_nc$x), bw.nrd(X_nc$y)), 
                       n = 1000)
